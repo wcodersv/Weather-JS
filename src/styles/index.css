@@ -46,8 +46,8 @@ body {
 .geolocation {
     margin: 0 auto;
     text-align: center;
-    display: block;
-    /* display: none; */
+    /* display: block; */
+    display: none;
 }
 
 .geolocation-temperature {
@@ -68,14 +68,16 @@ body {
     padding: 0;
 }
 
-.geolocation-select {
+.geolocation-button {
     color: rgba(255, 255, 255, 0.50);
     font-size: 17px;
+    font-style: italic;
     font-weight: 400;
     line-height: 28px;
     text-decoration-line: underline;
-    opacity: 0.5;
 
+    background: none;
+    border: none;
     padding: 0;
     margin: 34px 0 0 0;
 }
@@ -170,4 +172,43 @@ body {
 
     margin: 0 0 57px 0;
     padding: 0;
+}
+
+
+/*Load*/
+.lds-circle {
+    /* display: block; */
+    display: none;
+    transform: translateZ(1px);
+}
+
+.lds-circle>div {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    background: #fff;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes lds-circle {
+
+    0%,
+    100% {
+        animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    50% {
+        transform: rotateY(1800deg);
+        animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+
+    100% {
+        transform: rotateY(3600deg);
+    }
 }
