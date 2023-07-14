@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./src/styles/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">Weather</h1>
+        </header>
+
+        <main>
+            <!--Геолокация определяется автоматически-->
+            <div class="geolocation">
+                <p class="geolocation-temperature">8℃</p>
+                <p class="geolocation-city">Windy in Moscow</p>
+                <p class="geolocation-select">Change city</p>
+            </div>
+            <!--/*Выбрать город*/-->
+            <div class="select-city">
+                <input type="text" placeholder="Type your city here" class="input-city">
+                <div class="line"></div>
+                <button type="button" class="button">Find</button>
+            </div>
+
+            <!--Ошибка-->
+            <div class="error">
+                <p class="error__title">Ooops. Something went wrong.</p>
+                <p class="error__description">Error info</p>
+                <button type="button" class="button">Try again</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>With ❤️ by Viktoriia</p>
+        </footer>
+    </div>
+    <script src="./src/app/index.js"></script>
+</body>
+
+</html>
