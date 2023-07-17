@@ -29,21 +29,21 @@
             <div class="geolocation">
                 <p class="geolocation-temperature">8℃</p>
                 <p class="geolocation-city">Windy in Moscow</p>
-                <button type="geolocation-button" class="geolocation-button">Change city</button>
-                <!-- <p class="geolocation-select">Change city</p> -->
+                <button type="geolocation-button" class="geolocation-button" id="geo-btn">Change city</button>
             </div>
+
             <!--/*Выбрать город*/-->
             <div class="select-city">
                 <input type="text" placeholder="Type your city here" class="input-city">
                 <div class="line"></div>
-                <button type="button" class="button">Find</button>
+                <button type="button" class="button" id="find-button">Find</button>
             </div>
 
             <!--Ошибка-->
             <div class="error">
                 <p class="error__title">Ooops. Something went wrong.</p>
                 <p class="error__description">Error info</p>
-                <button type="button" class="button">Try again</button>
+                <button type="button" class="button" id="error-button">Try again</button>
             </div>
         </main>
 
@@ -51,7 +51,7 @@
             <p>With ❤️ by Viktoriia</p>
         </footer>
     </div>
-    <script src="./src/app/index.js"></script>
+    <script type="module" src="./src/app/index.js"></script>
 </body>
 
 </html>

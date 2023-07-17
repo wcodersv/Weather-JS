@@ -1,81 +1,83 @@
-
-function getCoordinates() {
-    return new Promise(function (resolve, reject) {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
-}
-
-// Получение данных о погоде
-async function getWeatherData() {
-    try {
-        const position = await getCoordinates();
-
-        const API_KEY_OW = '9d50b8efe66d09bd318745385322968f'; // API-ключ OpenWeatherMap
-        const API_URL_OW = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${API_KEY_OW}&units=metric`;
-
-        const response = await fetch(API_URL_OW);
-        const dataWeather = await response.json();
-        console.log(dataWeather)
-        return dataWeather;
-    } catch (error) {
-        console.log('Произошла ошибка:', error);
-    }
-};
-
-
-//Получение данных о местоположении
-async function getCityData() {
-    try {
-        const API_KEY_GEO = 'at_YNCHaC6VCEJMx8XereOGTuzgkkajk'; // API-ключ IP Geolocation API
-        const API_URL_GEO = `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY_GEO}`;
-
-        const response = await fetch(API_URL_GEO);
-        const dataCity = await response.json();
-
-        console.log(dataCity)
-        return dataCity;
-    } catch (error) {
-        console.log('Произошла ошибка:', error);
-    }
-
-}
+import { getWeatherData, getWeatherByCity } from "./api.js";
 
 let ldsEllipsis = document.querySelector('.lds-circle');
-let divGeolocation = document.querySelector('.geolocation')
+let divGeolocation = document.querySelector('.geolocation');
+let divError = document.querySelector('.error');
 
 
-// Когда получена геолокация для ТЕМПЕРАТУРЫ
-async function renderTemperatureGeolocation() {
+// Отрисовка температуры и города
+function renderWeather(dataWeather) {
+    activeFirstPage();
+
+    const temperatureGeolocation = document.querySelector('.geolocation-temperature');
+    temperatureGeolocation.textContent = `${Math.round(dataWeather.main.temp)}°C`;
+
+    const cityGeolocation = document.querySelector('.geolocation-city');
+    cityGeolocation.textContent = `${dataWeather.weather[0].main} in ${dataWeather.name}`;
+}
+
+//Загрузка 1 страницы
+async function loadFirstPage() {
     try {
         ldsEllipsis.style.display = 'block';
-
         const dataWeather = await getWeatherData();
         ldsEllipsis.style.display = 'none';
-        divGeolocation.style.display = 'block'
-        let temperatureGeolocation = document.querySelector('.geolocation-temperature');
-        temperatureGeolocation.textContent = `${Math.round(dataWeather.main.temp)}°C`;
+        renderWeather(dataWeather);
     } catch (error) {
-        console.error('Произошла ошибка:', error);
+        activeChangeCity();
     }
 }
-renderTemperatureGeolocation()
 
+loadFirstPage();
 
-// Когда получена геолокация для ГОРОДА
-async function renderCityGeolocation() {
+//~Change city
+// Button - смена города "Change city" 1 maket
+let changeCityBtn = document.querySelector('#geo-btn');
+let divSelectCity = document.querySelector('.select-city');
+let tryAgainBtn = document.querySelector('#error-button')
+
+changeCityBtn.addEventListener('click', activeChangeCity);
+
+// Input - ввод города
+let inputCity = document.querySelector('.input-city');
+let findCityBtn = document.querySelector('#find-button');
+
+findCityBtn.addEventListener('click', handleFindWeatherByCity)
+
+// Обработчик поиска погоды по городу
+async function handleFindWeatherByCity() {
+    const city = inputCity.value
     try {
-        const dataWeather = await getWeatherData();
-        let cityGeolocation = document.querySelector('.geolocation-city');
-        cityGeolocation.textContent = `${dataWeather.weather[0].main} in ${dataWeather.name}`
-
+        const weatherByCity = await getWeatherByCity(city);
+        renderWeather(weatherByCity);
     } catch (error) {
-        console.error('Произошла ошибка:', error);
+        activeChangeErrorPage();
     }
 }
 
-renderCityGeolocation()
+//~ Error страница
+tryAgainBtn.addEventListener('click', activeChangeCity)
 
 
-// Когда получена геолокация для 
+//~CSS стили
+// CSS - ативна страница показа погоды
+function activeFirstPage() {
+    divGeolocation.style.display = 'block';
+    divSelectCity.style.display = 'none';
+    divError.style.display = 'none';
+}
 
-let selectCityGeolocation = document.querySelector('.geolocation-select');
+// CSS - ативна страница Ввода города
+function activeChangeCity() {
+    divGeolocation.style.display = 'none';
+    divSelectCity.style.display = 'block';
+    divError.style.display = 'none';
+    inputCity.value = '';
+}
+
+// CSS - ативна страницы Ошибки
+function activeChangeErrorPage() {
+    divGeolocation.style.display = 'none';
+    divSelectCity.style.display = 'none';
+    divError.style.display = 'block';
+}
