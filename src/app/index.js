@@ -46,7 +46,7 @@ findCityBtn.addEventListener('click', handleFindWeatherByCity)
 
 // Обработчик поиска погоды по городу
 async function handleFindWeatherByCity() {
-    const city = inputCity.value
+    const city = inputCity.value.trim();
     try {
         const weatherByCity = await getWeatherByCity(city);
         renderWeather(weatherByCity);
